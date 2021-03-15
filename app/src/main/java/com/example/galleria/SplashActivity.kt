@@ -9,6 +9,10 @@ import android.view.animation.DecelerateInterpolator
 import androidx.databinding.DataBindingUtil
 import com.example.galleria.databinding.ActivitySplashBinding
 import com.example.galleria.home.view.HomeActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SplashActivity : AppCompatActivity() {
@@ -29,6 +33,7 @@ class SplashActivity : AppCompatActivity() {
             scaleYBy(1f)
             start()
         }
+
 
         Handler(Looper.getMainLooper()).postDelayed({
 
