@@ -17,4 +17,5 @@
     <color name="colorOverlayDark">#84000000</color>
     <color name="colorOverlay">#42000000</color>
     <color name="transparent">#00000000</color>
+    <color name="colorRippleWhite">#84FFFFFF</color>
 </resources>

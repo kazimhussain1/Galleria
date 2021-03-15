@@ -92,12 +92,12 @@
                        android:hint="@string/search_hint"
                         android:layout_toEndOf="@id/btn_back" />
 
-                    <View
+                   <!-- <View
                         android:id="@+id/view"
                         android:layout_width="match_parent"
                         android:layout_height="?actionBarSize"
                         android:layout_below="@id/search_view"
-                        android:visibility="gone"/>
+                        android:visibility="gone"/>-->
                 </RelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

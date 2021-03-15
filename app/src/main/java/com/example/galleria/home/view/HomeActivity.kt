@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.galleria.R
+import com.example.galleria.common.AppConstants
 import com.example.galleria.common.BaseActivity
 import com.example.galleria.common.SpaceItemDecoration
 import com.example.galleria.databinding.ActivityHomeBinding
@@ -20,9 +20,8 @@ import com.example.galleria.detail.view.DetailActivity
 import com.example.galleria.home.adapters.HomeRecyclerAdapter
 import com.example.galleria.home.api.response.ImageItem
 import com.example.galleria.home.viewmodel.HomeViewModel
+import com.example.galleria.utilities.Utilities
 import kotlin.math.hypot
-
-import com.example.galleria.common.AppConstants
 
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
@@ -115,20 +114,24 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
     private fun setObservers(adapter: HomeRecyclerAdapter) {
-        viewModel.imageItemResult.observe(this, Observer {
+        viewModel.imageItemResult.observe(this, {
             adapter.submitList(it)
-            this.data  = it
+            this.data = it
         })
 
-        viewModel.searchVisible.observe(this, Observer {
+        viewModel.searchVisible.observe(this, {
             if (it)
-                revealFAB()
+                revealSearch()
             else
-                hideFAB()
+                hideSearch()
         })
 
-        viewModel.progressBarVisible.observe(this, Observer {
+        viewModel.progressBarVisible.observe(this, {
             if (it) showProgressbar() else hideProgressbar()
+        })
+
+        viewModel.error.observe(this, {
+            Utilities.showToast(this, it)
         })
     }
 
@@ -138,18 +141,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
     }
 
 
-    private fun revealFAB() {
+    private fun revealSearch() {
         val view: View = binding.searchContainer
 
         view.post {
             val cx: Int = view.width / 2
-            val cy: Int = view.height
+            val cy: Int = view.height /2
             val finalRadius =
                 hypot(cx.toDouble(), cy.toDouble()).toFloat()
             val anim: Animator =
                 ViewAnimationUtils.createCircularReveal(view, cx * 2, 0, 0f, finalRadius * 2)
 
-            binding.view.isVisible = true
+//            binding.view.isVisible = true
 
             binding.searchButton.setImageResource(R.drawable.baseline_close_24)
             binding.searchButton.setColorFilter(
@@ -165,7 +168,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
 
     }
 
-    private fun hideFAB() {
+    private fun hideSearch() {
         val view: View = binding.searchContainer
 
         view.post {
@@ -188,7 +191,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
                 android.graphics.PorterDuff.Mode.MULTIPLY
             )
 
-            binding.view.isVisible = false
+//            binding.view.isVisible = false
         }
 
     }

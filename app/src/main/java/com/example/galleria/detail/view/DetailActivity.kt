@@ -3,6 +3,7 @@ package com.example.galleria.detail.view
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.galleria.R
 import com.example.galleria.common.AppConstants
@@ -28,15 +29,31 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
         setContentView(R.layout.activity_detail)
         setViewModel(DetailViewModel::class.java)
 
+        setupViewPager()
+        setListeners()
+        setObservers()
 
+        viewModel.setImageData(intent.getParcelableArrayListExtra<ImageItem>(AppConstants.DATA_KEY)?.toList())
+
+    }
+
+    private fun setObservers() {
+        viewModel.imageData.observe(this, Observer {
+
+            adapter.submitList(it)
+            binding.viewPager.currentItem = intent.getIntExtra(AppConstants.POSITION_KEY, 0)
+        })
+    }
+
+    private fun setupViewPager() {
         binding.viewPager.adapter = adapter
 
-        adapter.submitList(intent.getParcelableArrayListExtra(AppConstants.DATA_KEY))
+    }
 
-
-        binding.viewPager.currentItem = intent.getIntExtra(AppConstants.POSITION_KEY, 0)
-
-
+    private fun setListeners() {
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
         binding.btnShare.setOnClickListener {
             shareImage(adapter.getItem(binding.viewPager.currentItem))
         }
@@ -50,12 +67,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
                     PERMISSION_REQUEST_CODE
                 )
         }
-
     }
 
     private fun shareImage(item: ImageItem) {
         CoroutineScope(Dispatchers.IO).launch {
-
             Utilities.shareImage(
                 Glide.with(this@DetailActivity)
                     .asBitmap()

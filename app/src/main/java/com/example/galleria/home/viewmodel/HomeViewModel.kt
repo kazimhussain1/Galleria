@@ -3,12 +3,10 @@ package com.example.galleria.home.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.galleria.common.ContextService
 import com.example.galleria.home.api.response.ImageItem
 import com.example.galleria.home.api.response.ImageQueryResponse
 import com.example.galleria.home.contracts.HomeContracts
 import com.example.galleria.home.repository.HomeRepo
-import com.example.galleria.utilities.Utilities
 
 class HomeViewModel : ViewModel(), HomeContracts.ViewModel {
 
@@ -16,7 +14,7 @@ class HomeViewModel : ViewModel(), HomeContracts.ViewModel {
     private var searchQuery: String = ""
     private val homeRepo: HomeRepo = HomeRepo(this)
 
-    private val mProgressBarVisible: MutableLiveData<Boolean> = MutableLiveData();
+    private val mProgressBarVisible: MutableLiveData<Boolean> = MutableLiveData()
     private val mSearchVisible: MutableLiveData<Boolean> = MutableLiveData()
     private val mImageItemResult: MutableLiveData<List<ImageItem>> = MutableLiveData()
     private val mError: MutableLiveData<String> = MutableLiveData()
@@ -39,7 +37,7 @@ class HomeViewModel : ViewModel(), HomeContracts.ViewModel {
         this.searchQuery = searchQuery
         homeRepo.getImages(searchQuery)
 
-        mProgressBarVisible.value = false
+        mProgressBarVisible.value = true
     }
 
     override fun onImageQueryPaginatedError(error: String) {
@@ -85,9 +83,7 @@ class HomeViewModel : ViewModel(), HomeContracts.ViewModel {
 
     fun getImagesNextPage() {
         if (pageNo > 0) {
-            Utilities.showToast(ContextService.getInstance().context, "new Data")
             homeRepo.getImagesPaginated(searchQuery, ++pageNo)
-
             mProgressBarVisible.value = true
         }
     }
