@@ -39,6 +39,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(),
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.recyclerView.addItemDecoration(SpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.dimen_main)))
+        binding.recyclerView.itemAnimator = null
 
 
         setObservers(adapter)

@@ -62,7 +62,7 @@
                     android:id="@+id/search_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?colorSurface"
                     android:visibility="invisible"
                     app:layout_constraintTop_toTopOf="parent"
                     android:animateLayoutChanges="true">
@@ -77,7 +77,7 @@
                         android:layout_alignTop="@id/search_view"
                         android:layout_marginStart="@dimen/dimen_main"
                         android:layout_marginEnd="@dimen/dimen_main_half"
-                        android:background="?selectableItemBackgroundBorderless"
+                        android:foreground="?selectableItemBackgroundBorderless"
                         android:visibility="gone"
                         />
 
@@ -88,8 +88,8 @@
                         android:imeOptions="actionSearch"
                         android:inputType="text"
                         android:visibility="visible"
-                        android:background="@color/white"
-                       android:hint="@string/search_hint"
+                        android:background="@null"
+                        android:hint="@string/search_hint"
                         android:layout_toEndOf="@id/btn_back" />
 
                    <!-- <View

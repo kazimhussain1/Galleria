@@ -3,7 +3,8 @@ package com.example.galleria.detail.view
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.lifecycle.Observer
+import android.view.MotionEvent
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.galleria.R
 import com.example.galleria.common.AppConstants
@@ -16,6 +17,8 @@ import com.example.galleria.utilities.Utilities
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 private const val PERMISSION_REQUEST_CODE: Int = 8547
 
@@ -33,15 +36,21 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
         setListeners()
         setObservers()
 
-        viewModel.setImageData(intent.getParcelableArrayListExtra<ImageItem>(AppConstants.DATA_KEY)?.toList())
+        viewModel.setImageData(
+            intent.getParcelableArrayListExtra<ImageItem>(AppConstants.DATA_KEY)?.toList()
+        )
+        viewModel.setPositionIfNull(intent.getIntExtra(AppConstants.POSITION_KEY, 0))
 
     }
 
     private fun setObservers() {
-        viewModel.imageData.observe(this, Observer {
+        viewModel.imageData.observe(this, {
 
             adapter.submitList(it)
-            binding.viewPager.currentItem = intent.getIntExtra(AppConstants.POSITION_KEY, 0)
+
+        })
+        viewModel.position.observe(this, {
+            binding.viewPager.currentItem = it
         })
     }
 
@@ -67,6 +76,16 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
                     PERMISSION_REQUEST_CODE
                 )
         }
+
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                viewModel.setPosition(position)
+            }
+        })
+
+
     }
 
     private fun shareImage(item: ImageItem) {
@@ -99,6 +118,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
                 this@DetailActivity,
                 "Galleria"
             )
+
+            withContext(Dispatchers.Main) {
+                Utilities.showToast(this@DetailActivity, "Saved in Pictures/Galleria")
+            }
         }
     }
 

@@ -24,7 +24,8 @@
             android:gravity="center"
             android:minHeight="?actionBarSize"
             android:orientation="horizontal"
-            android:elevation="@dimen/elevation_main">
+            android:elevation="@dimen/elevation_main"
+            android:background="@color/colorOverlay">
 
             <View
                 android:layout_width="0dp"
