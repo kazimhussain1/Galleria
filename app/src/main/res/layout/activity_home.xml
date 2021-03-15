@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".home.view.HomeActivity">
+
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/solid_primary"
+            android:contentInsetStart="0dp"
+            android:elevation="@dimen/elevation_main">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textStyle="bold"
+                    android:textColor="?colorOnPrimary"
+                    style="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:layout_marginStart="@dimen/dimen_main"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/guide"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/search_button"/>
+
+
+                <ImageView
+                    android:id="@+id/search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/baseline_search_24"
+                    app:tint="?colorOnPrimary"
+                    android:contentDescription="@null"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:layout_marginEnd="@dimen/dimen_main"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/guide"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="?actionBarSize"/>
+                <RelativeLayout
+                    android:id="@+id/search_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:visibility="invisible"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:animateLayoutChanges="true">
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_arrow_back_24"
+                        app:tint="?colorOnSurface"
+                        android:layout_alignBottom="@id/search_view"
+                        android:layout_alignTop="@id/search_view"
+                        android:layout_marginStart="@dimen/dimen_main"
+                        android:layout_marginEnd="@dimen/dimen_main_half"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:visibility="gone"
+                        />
+
+                    <EditText
+                        android:id="@+id/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="?actionBarSize"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:visibility="visible"
+                        android:background="@color/white"
+                       android:hint="@string/search_hint"
+                        android:layout_toEndOf="@id/btn_back" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="?actionBarSize"
+                        android:layout_below="@id/search_view"
+                        android:visibility="gone"/>
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </Toolbar>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+</layout>
